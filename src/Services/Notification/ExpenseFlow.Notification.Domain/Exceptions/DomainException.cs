@@ -1,0 +1,10 @@
+﻿using System;
+
+namespace ExpenseFlow.Notification.Domain.Exceptions;
+
+public abstract class DomainException : Exception
+{
+    protected DomainException(string message) : base(message)
+    {
+    }
+}
