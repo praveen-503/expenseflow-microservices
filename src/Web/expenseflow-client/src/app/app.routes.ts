@@ -26,6 +26,14 @@ export const routes: Routes = [
         loadComponent: () => import('./features/expenses/expense-list/expense-list.component').then(c => c.ExpenseListComponent)
       },
       {
+        path: 'expenses/:id',
+        loadComponent: () => import('./features/expenses/expense-details/expense-details.component').then(c => c.ExpenseDetailsComponent)
+      },
+      {
+        path: 'categories',
+        loadComponent: () => import('./features/categories/categories.component').then(c => c.CategoriesComponent)
+      },
+      {
         path: 'notifications',
         loadComponent: () => import('./features/notifications/notification-list/notification-list.component').then(c => c.NotificationListComponent)
       },

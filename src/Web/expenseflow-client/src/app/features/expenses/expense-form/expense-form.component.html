@@ -1,38 +1,43 @@
 ﻿<mat-card class="form-card">
   <mat-card-header>
-    <mat-card-title>Add New Expense</mat-card-title>
+    <mat-card-title>Log New Expense</mat-card-title>
   </mat-card-header>
-  <mat-card-content class="form-content">
-    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Description</mat-label>
-        <input matInput formControlName="description">
+  <mat-card-content>
+    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()" class="flex-column">
+      <mat-form-field appearance="outline">
+        <mat-label>Expense Title</mat-label>
+        <input matInput formControlName="title" placeholder="E.g., Groceries">
       </mat-form-field>
 
       <div class="row">
         <mat-form-field appearance="outline" class="half-width">
-          <mat-label>Amount</mat-label>
-          <input matInput type="number" formControlName="amount">
+          <mat-label>Amount ($)</mat-label>
+          <input matInput type="number" step="0.01" formControlName="amount" placeholder="0.00">
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="half-width">
-          <mat-label>Date</mat-label>
-          <input matInput type="date" formControlName="date">
+          <mat-label>Expense Date</mat-label>
+          <input matInput type="date" formControlName="expenseDate">
         </mat-form-field>
       </div>
 
-      <mat-form-field appearance="outline" class="full-width">
+      <mat-form-field appearance="outline">
         <mat-label>Category</mat-label>
         <mat-select formControlName="categoryId">
-          @for (cat of categories; track cat.id) {
+          @for (cat of categories(); track cat.id) {
             <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field appearance="outline">
+        <mat-label>Notes / Comments</mat-label>
+        <textarea matInput formControlName="notes" rows="3" placeholder="Optional comments..."></textarea>
+      </mat-form-field>
+
       <div class="actions">
         <button mat-button type="button" (click)="cancel.emit()">Cancel</button>
-        <button mat-flat-button color="primary" type="submit" [disabled]="expenseForm.invalid">Save</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="expenseForm.invalid">Save Expense</button>
       </div>
     </form>
   </mat-card-content>

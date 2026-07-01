@@ -3,6 +3,10 @@
   <button mat-flat-button color="primary" (click)="showForm.set(true)">Add Expense</button>
 </div>
 
+@if (errorMessage()) {
+  <div class="error-banner">{{ errorMessage() }}</div>
+}
+
 @if (showForm()) {
   <app-expense-form 
     (save)="addExpense($event)" 
@@ -10,32 +14,44 @@
   </app-expense-form>
 }
 
-<div class="table-container">
-  <table mat-table [dataSource]="expenses()" class="mat-elevation-z1">
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *mat-header-cellDef>Description</th>
-      <td mat-cell *mat-cellDef="let element">{{ element.description }}</td>
+<div class="filter-header" style="margin: 10px 0;">
+  <mat-form-field appearance="outline" style="width: 100%;">
+    <mat-label>Search expenses...</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search by title, notes, or category...">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</div>
+
+<div class="table-container mat-elevation-z1">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *mat-header-cellDef mat-sort-header>Title</th>
+      <td mat-cell *mat-cellDef="let element" (click)="navigateToDetails(element.id)" style="cursor: pointer; font-weight: 500;">
+        {{ element.title }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="category">
-      <th mat-header-cell *mat-header-cellDef>Category</th>
-      <td mat-cell *mat-cellDef="let element">{{ element.category?.name || 'Unassigned' }}</td>
+      <th mat-header-cell *mat-header-cellDef mat-sort-header>Category</th>
+      <td mat-cell *mat-cellDef="let element">
+        {{ element.category?.name || 'Unassigned' }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="amount">
-      <th mat-header-cell *mat-header-cellDef>Amount</th>
+      <th mat-header-cell *mat-header-cellDef mat-sort-header>Amount</th>
       <td mat-cell *mat-cellDef="let element">${{ element.amount | number:'1.2-2' }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *mat-header-cellDef>Date</th>
-      <td mat-cell *mat-cellDef="let element">{{ element.date }}</td>
+    <ng-container matColumnDef="expenseDate">
+      <th mat-header-cell *mat-header-cellDef mat-sort-header>Date</th>
+      <td mat-cell *mat-cellDef="let element">{{ element.expenseDate | date:'yyyy-MM-dd' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *mat-header-cellDef>Actions</th>
       <td mat-cell *mat-cellDef="let element">
-        <button mat-icon-button color="warn" (click)="deleteExpense(element.id)">
+        <button mat-icon-button color="warn" (click)="deleteExpense(element.id, $event)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
@@ -44,4 +60,6 @@
     <tr mat-header-row *mat-header-rowDef="displayedColumns"></tr>
     <tr mat-row *mat-rowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of expenses"></mat-paginator>
 </div>

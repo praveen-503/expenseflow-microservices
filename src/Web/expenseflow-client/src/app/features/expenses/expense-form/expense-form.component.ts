@@ -1,4 +1,4 @@
-﻿import { Component, Output, EventEmitter } from '@angular/core';
+﻿import { Component, Output, EventEmitter, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { Category, Expense } from '../../../core/models/expense.model';
+import { ExpenseService } from '../../../core/services/expense.service';
 
 @Component({
   selector: 'app-expense-form',
@@ -15,41 +16,30 @@ import { Category, Expense } from '../../../core/models/expense.model';
   templateUrl: './expense-form.component.html',
   styleUrl: './expense-form.component.css'
 })
-export class ExpenseFormComponent {
+export class ExpenseFormComponent implements OnInit {
+  private readonly expenseService = inject(ExpenseService);
+  private readonly fb = inject(FormBuilder);
+
   @Output() save = new EventEmitter<Omit<Expense, 'id' | 'userId'>>();
   @Output() cancel = new EventEmitter<void>();
 
-  protected readonly categories: Category[] = [
-    { id: '1', name: 'Food & Dining', description: '' },
-    { id: '2', name: 'Transportation', description: '' },
-    { id: '3', name: 'Utilities', description: '' },
-    { id: '4', name: 'Entertainment', description: '' },
-    { id: '5', name: 'Housing', description: '' }
-  ];
+  protected readonly categories = signal<Category[]>([]);
+  protected readonly expenseForm: FormGroup = this.fb.group({
+    title: ['', [Validators.required, Validators.maxLength(150)]],
+    amount: [null, [Validators.required, Validators.min(0.01)]],
+    expenseDate: [new Date().toISOString().substring(0, 10), [Validators.required]],
+    notes: ['', [Validators.maxLength(500)]],
+    categoryId: ['', [Validators.required]]
+  });
 
-  protected readonly expenseForm: FormGroup;
-
-  constructor(fb: FormBuilder) {
-    this.expenseForm = fb.group({
-      description: ['', [Validators.required]],
-      amount: [null, [Validators.required, Validators.min(0.01)]],
-      date: [new Date().toISOString().substring(0, 10), [Validators.required]],
-      categoryId: ['', [Validators.required]]
+  ngOnInit(): void {
+    this.expenseService.getCategories().subscribe(cats => {
+      this.categories.set(cats);
     });
   }
 
   onSubmit() {
     if (this.expenseForm.invalid) return;
-
-    const { description, amount, date, categoryId } = this.expenseForm.value;
-    const category = this.categories.find(c => c.id === categoryId);
-
-    this.save.emit({
-      description,
-      amount,
-      date,
-      categoryId,
-      category
-    });
+    this.save.emit(this.expenseForm.value);
   }
 }
