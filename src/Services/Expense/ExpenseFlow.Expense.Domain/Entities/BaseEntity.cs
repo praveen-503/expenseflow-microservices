@@ -4,7 +4,7 @@ using ExpenseFlow.Expense.Domain.DomainEvents;
 
 namespace ExpenseFlow.Expense.Domain.Entities;
 
-public abstract class BaseEntity<TId>
+public abstract class BaseEntity<TId> : IBaseEntity
 {
     public TId Id { get; protected set; } = default!;
     
