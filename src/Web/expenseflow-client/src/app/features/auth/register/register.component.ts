@@ -32,8 +32,8 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.invalid) return;
 
-    const { email, firstName, lastName } = this.registerForm.value;
-    this.authService.register(email, firstName, lastName).subscribe({
+    const { email, firstName, lastName, password } = this.registerForm.value;
+    this.authService.register(email, firstName, lastName, password).subscribe({
       next: () => {
         this.router.navigate(['/dashboard']);
       },
