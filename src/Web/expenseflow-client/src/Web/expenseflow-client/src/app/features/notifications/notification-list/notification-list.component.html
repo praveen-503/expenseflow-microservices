@@ -1,0 +1,17 @@
+﻿<h1>Notifications</h1>
+<p>Logs of messages delivered to your profile.</p>
+
+<div class="notifications-container">
+  @for (notif of notifications(); track notif.id) {
+    <mat-card class="notification-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar color="primary">message</mat-icon>
+        <mat-card-title>{{ notif.title }}</mat-card-title>
+        <mat-card-subtitle>{{ notif.createdAt }} - Channel: {{ notif.type }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="message-text">{{ notif.message }}</p>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

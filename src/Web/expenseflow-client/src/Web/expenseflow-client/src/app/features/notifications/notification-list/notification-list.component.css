@@ -1,0 +1,14 @@
+﻿.notifications-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+.notification-card {
+  padding: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+.message-text {
+  margin-top: 10px;
+  font-size: 15px;
+}

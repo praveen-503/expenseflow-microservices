@@ -1,0 +1,38 @@
+﻿<h1>Admin Control Panel</h1>
+<p>Manage system users, microservice configuration endpoints, and authorization scopes.</p>
+
+<mat-card class="admin-card">
+  <mat-card-header>
+    <mat-card-title>System Users</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="admin-content">
+    <table mat-table [dataSource]="users()" class="mat-elevation-z1">
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *mat-header-cellDef>Email</th>
+        <td mat-cell *mat-cellDef="let element">{{ element.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *mat-header-cellDef>First Name</th>
+        <td mat-cell *mat-cellDef="let element">{{ element.firstName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *mat-header-cellDef>Last Name</th>
+        <td mat-cell *mat-cellDef="let element">{{ element.lastName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *mat-header-cellDef>Role</th>
+        <td mat-cell *mat-cellDef="let element">
+          <span class="role-badge" [class.admin-badge]="element.role === 'Administrator'">
+            {{ element.role }}
+          </span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *mat-header-rowDef="displayedColumns"></tr>
+      <tr mat-row *mat-rowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

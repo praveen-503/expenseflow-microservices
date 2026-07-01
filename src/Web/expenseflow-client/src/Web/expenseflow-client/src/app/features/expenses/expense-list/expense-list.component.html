@@ -1,0 +1,47 @@
+﻿<div class="page-header">
+  <h1>Expenses</h1>
+  <button mat-flat-button color="primary" (click)="showForm.set(true)">Add Expense</button>
+</div>
+
+@if (showForm()) {
+  <app-expense-form 
+    (save)="addExpense($event)" 
+    (cancel)="showForm.set(false)">
+  </app-expense-form>
+}
+
+<div class="table-container">
+  <table mat-table [dataSource]="expenses()" class="mat-elevation-z1">
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *mat-header-cellDef>Description</th>
+      <td mat-cell *mat-cellDef="let element">{{ element.description }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *mat-header-cellDef>Category</th>
+      <td mat-cell *mat-cellDef="let element">{{ element.category?.name || 'Unassigned' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *mat-header-cellDef>Amount</th>
+      <td mat-cell *mat-cellDef="let element">${{ element.amount | number:'1.2-2' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *mat-header-cellDef>Date</th>
+      <td mat-cell *mat-cellDef="let element">{{ element.date }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *mat-header-cellDef>Actions</th>
+      <td mat-cell *mat-cellDef="let element">
+        <button mat-icon-button color="warn" (click)="deleteExpense(element.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *mat-header-rowDef="displayedColumns"></tr>
+    <tr mat-row *mat-rowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
