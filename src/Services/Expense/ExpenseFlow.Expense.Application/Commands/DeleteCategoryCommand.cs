@@ -4,4 +4,4 @@ using System;
 
 namespace ExpenseFlow.Expense.Application.Commands;
 
-public record CreateCategoryCommand(string Name, string Description, Guid UserId) : IRequest<Result<Guid>>;
+public record DeleteCategoryCommand(Guid Id, Guid UserId) : IRequest<Result<bool>>;

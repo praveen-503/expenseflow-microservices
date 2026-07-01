@@ -2,7 +2,8 @@
 using MediatR;
 using ExpenseFlow.Expense.Domain.Common;
 using ExpenseFlow.Expense.Application.DTOs;
+using System;
 
 namespace ExpenseFlow.Expense.Application.Queries;
 
-public record GetCategoriesQuery : IRequest<Result<IEnumerable<CategoryDto>>>;
+public record GetCategoriesQuery(Guid UserId) : IRequest<Result<IReadOnlyList<CategoryDto>>>;

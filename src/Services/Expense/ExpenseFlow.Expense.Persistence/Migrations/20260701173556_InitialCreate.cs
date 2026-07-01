@@ -19,7 +19,8 @@ namespace ExpenseFlow.Expense.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,14 +56,14 @@ namespace ExpenseFlow.Expense.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Description", "Name" },
+                columns: new[] { "Id", "Description", "Name", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("11111111-1111-1111-1111-111111111111"), "Meals, groceries, and dining out", "Food & Dining" },
-                    { new Guid("22222222-2222-2222-2222-222222222222"), "Fuel, public transit, and vehicle maintenance", "Transportation" },
-                    { new Guid("33333333-3333-3333-3333-333333333333"), "Electricity, water, gas, and internet", "Utilities" },
-                    { new Guid("44444444-4444-4444-4444-444444444444"), "Movies, games, events, and hobbies", "Entertainment" },
-                    { new Guid("55555555-5555-5555-5555-555555555555"), "Rent, mortgage, and home insurance", "Housing" }
+                    { new Guid("11111111-1111-1111-1111-111111111111"), "Meals, groceries, and dining out", "Food & Dining", null },
+                    { new Guid("22222222-2222-2222-2222-222222222222"), "Fuel, public transit, and vehicle maintenance", "Transportation", null },
+                    { new Guid("33333333-3333-3333-3333-333333333333"), "Electricity, water, gas, and internet", "Utilities", null },
+                    { new Guid("44444444-4444-4444-4444-444444444444"), "Movies, games, events, and hobbies", "Entertainment", null },
+                    { new Guid("55555555-5555-5555-5555-555555555555"), "Rent, mortgage, and home insurance", "Housing", null }
                 });
 
             migrationBuilder.CreateIndex(
