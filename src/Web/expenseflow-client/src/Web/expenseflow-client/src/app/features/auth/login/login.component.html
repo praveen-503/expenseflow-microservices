@@ -1,0 +1,35 @@
+﻿<div class="auth-wrapper">
+  <mat-card class="auth-card">
+    <mat-card-header>
+      <mat-card-title>Sign In</mat-card-title>
+      <mat-card-subtitle>Access ExpenseFlow Microservice Portal</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content class="auth-content">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email Address</mat-label>
+          <input matInput formControlName="email" type="email" placeholder="admin@expenseflow.com">
+          <mat-error>Please enter a valid email</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" type="password">
+          <mat-error>Password is required</mat-error>
+        </mat-form-field>
+
+        @if (errorMessage) {
+          <div class="error-box">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <div class="actions">
+          <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
+          <a routerLink="/auth/register" class="toggle-link">Create Account</a>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

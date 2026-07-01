@@ -1,0 +1,8 @@
+﻿.sidebar-list {
+  padding-top: 10px;
+}
+.active-item {
+  background-color: rgba(63, 81, 181, 0.12);
+  color: #3f51b5;
+  font-weight: 500;
+}

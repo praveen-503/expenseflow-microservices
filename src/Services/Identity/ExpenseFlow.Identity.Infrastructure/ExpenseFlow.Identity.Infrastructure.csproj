@@ -2,11 +2,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExpenseFlow.Identity.Application\ExpenseFlow.Identity.Application.csproj" />
+    <ProjectReference Include="..\ExpenseFlow.Identity.Domain\ExpenseFlow.Identity.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.9" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.9" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.19.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.19.1" />
   </ItemGroup>
 
   <PropertyGroup>

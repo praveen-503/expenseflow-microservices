@@ -1,0 +1,23 @@
+﻿.form-card {
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+.form-content {
+  padding-top: 16px;
+}
+.full-width {
+  width: 100%;
+}
+.row {
+  display: flex;
+  gap: 16px;
+}
+.half-width {
+  flex: 1;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}

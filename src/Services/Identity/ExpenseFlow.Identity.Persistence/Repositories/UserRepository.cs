@@ -1,0 +1,35 @@
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using ExpenseFlow.Identity.Domain.Entities;
+using ExpenseFlow.Identity.Domain.Interfaces;
+
+namespace ExpenseFlow.Identity.Persistence.Repositories;
+
+public class UserRepository : Repository<User, Guid>, IUserRepository
+{
+    public UserRepository(IdentityDbContext dbContext) : base(dbContext)
+    {
+    }
+
+    public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<User>()
+            .Include(u => u.UserRoles)
+                .ThenInclude(ur => ur.Role)
+            .Include(u => u.RefreshTokens)
+            .Include(u => u.UserClaims)
+            .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+    }
+
+    public async Task<User?> GetByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<User>()
+            .Include(u => u.UserRoles)
+                .ThenInclude(ur => ur.Role)
+            .Include(u => u.RefreshTokens)
+            .Include(u => u.UserClaims)
+            .FirstOrDefaultAsync(u => u.RefreshTokens.Any(rt => rt.Token == refreshToken), cancellationToken);
+    }
+}

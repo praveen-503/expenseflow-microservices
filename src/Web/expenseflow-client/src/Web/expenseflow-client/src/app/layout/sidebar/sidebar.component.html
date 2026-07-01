@@ -1,0 +1,20 @@
+﻿<mat-nav-list class="sidebar-list">
+  <a mat-list-item routerLink="/dashboard" routerLinkActive="active-item">
+    <mat-icon matListItemIcon>dashboard</mat-icon>
+    <span matListItemTitle>Dashboard</span>
+  </a>
+  <a mat-list-item routerLink="/expenses" routerLinkActive="active-item">
+    <mat-icon matListItemIcon>receipt</mat-icon>
+    <span matListItemTitle>Expenses</span>
+  </a>
+  <a mat-list-item routerLink="/notifications" routerLinkActive="active-item">
+    <mat-icon matListItemIcon>notifications</mat-icon>
+    <span matListItemTitle>Notifications</span>
+  </a>
+  @if (authService.isAdmin()) {
+    <a mat-list-item routerLink="/admin" routerLinkActive="active-item">
+      <mat-icon matListItemIcon>admin_panel_settings</mat-icon>
+      <span matListItemTitle>Admin Panel</span>
+    </a>
+  }
+</mat-nav-list>
