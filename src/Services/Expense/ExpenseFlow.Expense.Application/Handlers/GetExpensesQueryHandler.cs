@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using AutoMapper;
 using ExpenseFlow.Expense.Domain.Common;
 using ExpenseFlow.Expense.Domain.Interfaces;
 using ExpenseFlow.Expense.Domain.Specifications;
@@ -12,30 +12,22 @@ using ExpenseFlow.Expense.Application.Queries;
 
 namespace ExpenseFlow.Expense.Application.Handlers;
 
-public class GetExpensesQueryHandler : IRequestHandler<GetExpensesQuery, Result<IEnumerable<ExpenseDto>>>
+public class GetExpensesQueryHandler : IRequestHandler<GetExpensesQuery, Result<IReadOnlyList<ExpenseDto>>>
 {
     private readonly IExpenseRepository _expenseRepository;
+    private readonly IMapper _mapper;
 
-    public GetExpensesQueryHandler(IExpenseRepository expenseRepository)
+    public GetExpensesQueryHandler(IExpenseRepository expenseRepository, IMapper _mapper)
     {
-        _expenseRepository = expenseRepository;
+        this._expenseRepository = expenseRepository;
+        this._mapper = _mapper;
     }
 
-    public async Task<Result<IEnumerable<ExpenseDto>>> Handle(GetExpensesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IReadOnlyList<ExpenseDto>>> Handle(GetExpensesQuery request, CancellationToken cancellationToken)
     {
         var spec = new ExpenseWithCategorySpecification(request.UserId);
         var expenses = await _expenseRepository.ListAsync(spec, cancellationToken);
-
-        var dtos = expenses.Select(e => new ExpenseDto(
-            e.Id,
-            e.Description,
-            e.Amount,
-            e.Date,
-            e.CategoryId,
-            new CategoryDto(e.Category.Id, e.Category.Name, e.Category.Description),
-            e.UserId
-        ));
-
-        return Result<IEnumerable<ExpenseDto>>.Success(dtos);
+        var dtos = _mapper.Map<IReadOnlyList<ExpenseDto>>(expenses);
+        return Result<IReadOnlyList<ExpenseDto>>.Success(dtos);
     }
 }

@@ -5,4 +5,10 @@ using ExpenseFlow.Expense.Application.DTOs;
 
 namespace ExpenseFlow.Expense.Application.Commands;
 
-public record CreateExpenseCommand(string Description, decimal Amount, DateTime Date, Guid CategoryId, Guid UserId) : IRequest<Result<Guid>>;
+public record CreateExpenseCommand(
+    string Title,
+    decimal Amount,
+    DateTime ExpenseDate,
+    string Notes,
+    Guid CategoryId,
+    Guid UserId) : IRequest<Result<Guid>>;

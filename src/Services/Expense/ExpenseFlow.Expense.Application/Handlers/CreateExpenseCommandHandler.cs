@@ -30,20 +30,21 @@ public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand,
         var category = await _categoryRepository.GetByIdAsync(request.CategoryId, cancellationToken);
         if (category == null)
         {
-            return Result<Guid>.Failure(new Error("Category.NotFound", "Category not found."));
+            return Result<Guid>.Failure(new Error("Expense.CategoryNotFound", "Selected category not found."));
         }
 
         var expense = new Domain.Entities.Expense
         {
-            Description = request.Description,
+            Title = request.Title,
             Amount = request.Amount,
-            Date = request.Date,
+            ExpenseDate = request.ExpenseDate,
+            Notes = request.Notes,
             CategoryId = request.CategoryId,
             UserId = request.UserId
         };
 
         await _expenseRepository.AddAsync(expense, cancellationToken);
-        // TransactionBehavior commits transaction automatically for Commands
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result<Guid>.Success(expense.Id);
     }

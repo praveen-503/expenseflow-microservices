@@ -18,6 +18,7 @@ public static class DependencyInjection
         services.AddDbContext<ExpenseDbContext>(options =>
             options.UseSqlServer(connectionString));
 
+        services.AddScoped<DbContext>(provider => provider.GetRequiredService<ExpenseDbContext>());
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ExpenseDbContext>());
         services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<ExpenseDbContext>());
 

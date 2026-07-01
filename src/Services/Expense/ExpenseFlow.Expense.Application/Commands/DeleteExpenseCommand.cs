@@ -4,4 +4,4 @@ using ExpenseFlow.Expense.Domain.Common;
 
 namespace ExpenseFlow.Expense.Application.Commands;
 
-public record DeleteExpenseCommand(Guid Id, Guid UserId) : IRequest<Result>;
+public record DeleteExpenseCommand(Guid Id, Guid UserId) : IRequest<Result<bool>>;

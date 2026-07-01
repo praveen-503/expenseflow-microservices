@@ -6,4 +6,4 @@ using ExpenseFlow.Expense.Application.DTOs;
 
 namespace ExpenseFlow.Expense.Application.Queries;
 
-public record GetExpensesQuery(Guid UserId) : IRequest<Result<IEnumerable<ExpenseDto>>>;
+public record GetExpensesQuery(Guid UserId) : IRequest<Result<IReadOnlyList<ExpenseDto>>>;
