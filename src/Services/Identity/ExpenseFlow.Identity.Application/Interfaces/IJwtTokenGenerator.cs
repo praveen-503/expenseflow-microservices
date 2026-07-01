@@ -8,4 +8,5 @@ public interface IJwtTokenGenerator
 {
     string GenerateToken(User user, IEnumerable<string> roles, IEnumerable<Claim> claims);
     string GenerateRefreshToken();
+    ClaimsPrincipal? GetPrincipalFromExpiredToken(string token);
 }
