@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExpenseFlow.Identity.Application\ExpenseFlow.Identity.Application.csproj" />
+    <ProjectReference Include="..\ExpenseFlow.Identity.Domain\ExpenseFlow.Identity.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

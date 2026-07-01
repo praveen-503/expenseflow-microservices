@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -18,8 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExpenseFlow.Notification.Application\ExpenseFlow.Notification.Application.csproj" />
-    <ProjectReference Include="..\ExpenseFlow.Notification.Persistence\ExpenseFlow.Notification.Persistence.csproj" />
     <ProjectReference Include="..\ExpenseFlow.Notification.Infrastructure\ExpenseFlow.Notification.Infrastructure.csproj" />
+    <ProjectReference Include="..\ExpenseFlow.Notification.Persistence\ExpenseFlow.Notification.Persistence.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

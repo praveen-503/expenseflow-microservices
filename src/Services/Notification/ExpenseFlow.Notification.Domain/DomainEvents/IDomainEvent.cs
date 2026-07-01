@@ -1,9 +1,8 @@
-﻿using MediatR;
-using System;
+﻿using System;
 
 namespace ExpenseFlow.Notification.Domain.DomainEvents;
 
-public interface IDomainEvent : INotification
+public interface IDomainEvent
 {
     DateTime OccurredOn { get; }
 }

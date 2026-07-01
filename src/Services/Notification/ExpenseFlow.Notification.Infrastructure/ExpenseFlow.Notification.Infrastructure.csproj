@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExpenseFlow.Notification.Application\ExpenseFlow.Notification.Application.csproj" />
+    <ProjectReference Include="..\ExpenseFlow.Notification.Domain\ExpenseFlow.Notification.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
