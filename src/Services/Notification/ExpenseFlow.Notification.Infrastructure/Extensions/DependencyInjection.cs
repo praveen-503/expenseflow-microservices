@@ -16,6 +16,10 @@ public static class DependencyInjection
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         services.AddSingleton<IEventPublisher, AzureServiceBusPublisher>();
+        
+        // Register Hosted background listening service
+        services.AddHostedService<AzureServiceBusConsumerService>();
+
         return services;
     }
 }
