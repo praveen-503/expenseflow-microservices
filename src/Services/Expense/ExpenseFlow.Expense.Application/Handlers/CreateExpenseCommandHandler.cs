@@ -6,6 +6,8 @@ using ExpenseFlow.Expense.Domain.Common;
 using ExpenseFlow.Expense.Domain.Entities;
 using ExpenseFlow.Expense.Domain.Interfaces;
 using ExpenseFlow.Expense.Application.Commands;
+using ExpenseFlow.Expense.Application.Interfaces.Messaging;
+using ExpenseFlow.Expense.Application.Common.Messaging.Events;
 
 namespace ExpenseFlow.Expense.Application.Handlers;
 
@@ -13,15 +15,18 @@ public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand,
 {
     private readonly IExpenseRepository _expenseRepository;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IEventPublisher _eventPublisher;
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateExpenseCommandHandler(
         IExpenseRepository expenseRepository,
         ICategoryRepository categoryRepository,
+        IEventPublisher eventPublisher,
         IUnitOfWork unitOfWork)
     {
         _expenseRepository = expenseRepository;
         _categoryRepository = categoryRepository;
+        _eventPublisher = eventPublisher;
         _unitOfWork = unitOfWork;
     }
 
@@ -45,6 +50,17 @@ public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand,
 
         await _expenseRepository.AddAsync(expense, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        // Publish integration event
+        var integrationEvent = new ExpenseCreatedIntegrationEvent(
+            expense.Id,
+            expense.Title,
+            expense.Amount,
+            expense.ExpenseDate,
+            expense.CategoryId,
+            expense.UserId);
+
+        await _eventPublisher.PublishAsync(integrationEvent, cancellationToken);
 
         return Result<Guid>.Success(expense.Id);
     }

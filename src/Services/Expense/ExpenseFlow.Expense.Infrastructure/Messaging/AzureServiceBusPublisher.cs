@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using ExpenseFlow.Expense.Application.Interfaces.Messaging;
@@ -18,8 +19,10 @@ public class AzureServiceBusPublisher : IEventPublisher
     public Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default) 
         where TEvent : BaseIntegrationEvent
     {
-        _logger.LogInformation("Azure Service Bus [Abstraction]: Publishing Integration Event {EventId} of type {EventType}", 
-            @event.Id, typeof(TEvent).Name);
+        var payloadJson = JsonSerializer.Serialize((object)@event);
+        
+        _logger.LogInformation("Azure Service Bus [Abstraction]: Publishing Integration Event {EventId} of type {EventType}. Payload: {Payload}", 
+            @event.Id, typeof(TEvent).Name, payloadJson);
 
         // Actual client implementation with Azure Service Bus will be placed here
         return Task.CompletedTask;
