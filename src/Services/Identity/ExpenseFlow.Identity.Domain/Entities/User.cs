@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using ExpenseFlow.Identity.Domain.Entities;
 
 namespace ExpenseFlow.Identity.Domain.Entities;
 
@@ -14,4 +13,5 @@ public class User : AuditableEntity<Guid>
     
     public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
     public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+    public ICollection<UserClaim> UserClaims { get; set; } = new List<UserClaim>();
 }

@@ -19,6 +19,7 @@ public class UserRepository : Repository<User, Guid>, IUserRepository
             .Include(u => u.UserRoles)
                 .ThenInclude(ur => ur.Role)
             .Include(u => u.RefreshTokens)
+            .Include(u => u.UserClaims)
             .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
 
@@ -28,6 +29,7 @@ public class UserRepository : Repository<User, Guid>, IUserRepository
             .Include(u => u.UserRoles)
                 .ThenInclude(ur => ur.Role)
             .Include(u => u.RefreshTokens)
+            .Include(u => u.UserClaims)
             .FirstOrDefaultAsync(u => u.RefreshTokens.Any(rt => rt.Token == refreshToken), cancellationToken);
     }
 }

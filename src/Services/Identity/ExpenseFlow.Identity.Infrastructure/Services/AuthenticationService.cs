@@ -48,7 +48,9 @@ public class AuthenticationService : IAuthenticationService
         }
 
         var roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();
-        var token = _tokenGenerator.GenerateToken(user, roles, Enumerable.Empty<Claim>());
+        var claims = user.UserClaims.Select(uc => new Claim(uc.ClaimType, uc.ClaimValue)).ToList();
+        
+        var token = _tokenGenerator.GenerateToken(user, roles, claims);
         var refreshTokenStr = _tokenGenerator.GenerateRefreshToken();
 
         var refreshToken = new RefreshToken
@@ -130,11 +132,12 @@ public class AuthenticationService : IAuthenticationService
             return Result<AuthResponseDto>.Failure(new Error("Auth.InvalidRefreshToken", "Invalid, expired or revoked refresh token."));
         }
 
-        // Rotate Refresh Token
         existingRefreshToken.IsRevoked = true;
         
         var roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();
-        var newAccessToken = _tokenGenerator.GenerateToken(user, roles, Enumerable.Empty<Claim>());
+        var claims = user.UserClaims.Select(uc => new Claim(uc.ClaimType, uc.ClaimValue)).ToList();
+        
+        var newAccessToken = _tokenGenerator.GenerateToken(user, roles, claims);
         var newRefreshTokenStr = _tokenGenerator.GenerateRefreshToken();
 
         var newRefreshToken = new RefreshToken
@@ -157,7 +160,7 @@ public class AuthenticationService : IAuthenticationService
         var user = await _userRepository.GetByRefreshTokenAsync(refreshToken, cancellationToken);
         if (user == null)
         {
-            return Result<bool>.Success(true); // Already logged out or token invalid
+            return Result<bool>.Success(true);
         }
 
         var tokenRecord = user.RefreshTokens.FirstOrDefault(rt => rt.Token == refreshToken);
