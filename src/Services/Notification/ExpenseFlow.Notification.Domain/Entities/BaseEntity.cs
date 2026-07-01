@@ -6,7 +6,7 @@ namespace ExpenseFlow.Notification.Domain.Entities;
 
 public abstract class BaseEntity<TId> : IBaseEntity
 {
-    public TId Id { get; protected set; } = default!;
+    public TId Id { get; init; } = default!;
     
     private readonly List<IDomainEvent> _domainEvents = new();
     public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
