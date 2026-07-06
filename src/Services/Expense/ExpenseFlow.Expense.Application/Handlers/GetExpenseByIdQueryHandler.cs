@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +9,7 @@ using ExpenseFlow.Expense.Domain.Interfaces;
 using ExpenseFlow.Expense.Domain.Specifications;
 using ExpenseFlow.Expense.Application.DTOs;
 using ExpenseFlow.Expense.Application.Queries;
+using ExpenseFlow.Expense.Application.Interfaces;
 
 namespace ExpenseFlow.Expense.Application.Handlers;
 
@@ -16,11 +17,13 @@ public class GetExpenseByIdQueryHandler : IRequestHandler<GetExpenseByIdQuery, R
 {
     private readonly IExpenseRepository _expenseRepository;
     private readonly IMapper _mapper;
+    private readonly IStorageService _storageService;
 
-    public GetExpenseByIdQueryHandler(IExpenseRepository expenseRepository, IMapper _mapper)
+    public GetExpenseByIdQueryHandler(IExpenseRepository expenseRepository, IMapper _mapper, IStorageService storageService)
     {
         this._expenseRepository = expenseRepository;
         this._mapper = _mapper;
+        this._storageService = storageService;
     }
 
     public async Task<Result<ExpenseDto>> Handle(GetExpenseByIdQuery request, CancellationToken cancellationToken)
@@ -34,6 +37,11 @@ public class GetExpenseByIdQueryHandler : IRequestHandler<GetExpenseByIdQuery, R
         }
 
         var dto = _mapper.Map<ExpenseDto>(expense);
+        if (!string.IsNullOrEmpty(expense.ReceiptUrl))
+        {
+            dto = dto with { ReceiptUrl = _storageService.GenerateSasUrl(expense.ReceiptUrl, TimeSpan.FromHours(1)) };
+        }
+
         return Result<ExpenseDto>.Success(dto);
     }
 }

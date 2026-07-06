@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace ExpenseFlow.Expense.Domain.Entities;
 
@@ -13,4 +13,6 @@ public class Expense : AuditableEntity<Guid>
     public Category Category { get; set; } = null!;
     
     public Guid UserId { get; set; }
+    
+    public string? ReceiptUrl { get; set; }
 }

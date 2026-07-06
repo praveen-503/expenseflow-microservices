@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Azure.Messaging.ServiceBus;
+using Azure.Storage.Blobs;
 using Azure.Identity;
 using System;
 using ExpenseFlow.Expense.Application.Interfaces;
@@ -49,6 +50,21 @@ public static class DependencyInjection
         });
 
         services.AddSingleton<IEventPublisher, AzureServiceBusPublisher>();
+
+        // Blob Storage Configuration
+        services.Configure<BlobStorageOptions>(configuration.GetSection(BlobStorageOptions.SectionName));
+
+        services.AddSingleton(sp =>
+        {
+            var options = sp.GetRequiredService<IOptions<BlobStorageOptions>>().Value;
+            if (!string.IsNullOrEmpty(options.FullyQualifiedNamespace))
+            {
+                return new BlobServiceClient(new Uri(options.FullyQualifiedNamespace), new DefaultAzureCredential());
+            }
+            return new BlobServiceClient(options.ConnectionString);
+        });
+
+        services.AddSingleton<IStorageService, AzureBlobStorageService>();
 
         services.AddHealthChecks()
             .AddCheck<AzureServiceBusHealthCheck>("AzureServiceBus-Check", tags: new[] { "ready", "servicebus" });

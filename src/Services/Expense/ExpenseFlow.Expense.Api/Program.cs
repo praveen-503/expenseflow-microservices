@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Register Azure Key Vault Configuration Provider
 var vaultUriStr = builder.Configuration["AzureKeyVault:VaultUri"];
-if (!string.IsNullOrEmpty(vaultUriStr))
+if (!string.IsNullOrEmpty(vaultUriStr) && vaultUriStr != "https://expenseflow-kv.vault.azure.net/")
 {
     builder.Configuration.AddAzureKeyVault(new Uri(vaultUriStr), new DefaultAzureCredential());
 }
