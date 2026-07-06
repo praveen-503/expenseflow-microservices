@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Azure.Messaging.ServiceBus;
+using Azure.Identity;
 using System;
 using ExpenseFlow.Expense.Application.Interfaces;
 using ExpenseFlow.Expense.Application.Interfaces.Messaging;
@@ -37,6 +38,13 @@ public static class DependencyInjection
                     MaxDelay = TimeSpan.FromSeconds(options.Retry.MaxDelaySeconds)
                 }
             };
+
+            // Use Managed Identity (FullyQualifiedNamespace) if configured; fallback to ConnectionString
+            if (!string.IsNullOrEmpty(options.FullyQualifiedNamespace))
+            {
+                return new ServiceBusClient(options.FullyQualifiedNamespace, new DefaultAzureCredential(), clientOptions);
+            }
+
             return new ServiceBusClient(options.ConnectionString, clientOptions);
         });
 

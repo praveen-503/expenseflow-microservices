@@ -1,6 +1,15 @@
-﻿using ExpenseFlow.Notification.Api.Extensions;
+using ExpenseFlow.Notification.Api.Extensions;
+using Azure.Identity;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Register Azure Key Vault Configuration Provider
+var vaultUriStr = builder.Configuration["AzureKeyVault:VaultUri"];
+if (!string.IsNullOrEmpty(vaultUriStr))
+{
+    builder.Configuration.AddAzureKeyVault(new Uri(vaultUriStr), new DefaultAzureCredential());
+}
 
 // Configure Serilog Logging
 builder.Host.UseSerilogLogging();
