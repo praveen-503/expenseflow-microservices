@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +23,7 @@ public static class HealthCheckExtensions
         app.MapHealthChecks("/health");
         app.MapHealthChecks("/health/ready", new HealthCheckOptions
         {
-            Predicate = check => check.Tags.Contains("db")
+            Predicate = check => check.Tags.Contains("db") || check.Tags.Contains("servicebus")
         });
 
         return app;
