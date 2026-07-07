@@ -14,7 +14,7 @@ namespace ExpenseFlow.Notification.Infrastructure.Extensions;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration, bool registerBackgroundConsumer = true)
     {
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
@@ -50,8 +50,13 @@ public static class DependencyInjection
 
         services.AddSingleton<IEventPublisher, AzureServiceBusPublisher>();
         
-        // Register Hosted background listening service
-        services.AddHostedService<AzureServiceBusConsumerService>();
+        services.AddScoped<IEmailService, EmailService>();
+        
+        if (registerBackgroundConsumer)
+        {
+            // Register Hosted background listening service
+            services.AddHostedService<AzureServiceBusConsumerService>();
+        }
 
         services.AddHealthChecks()
             .AddCheck<AzureServiceBusHealthCheck>("AzureServiceBus-Check", tags: new[] { "ready", "servicebus" });

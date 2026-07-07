@@ -9,7 +9,7 @@ public static class HealthCheckExtensions
 {
     public static IServiceCollection AddHealthCheckConfig(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection") 
+        var connectionString = configuration.GetConnectionString("IdentityDb") 
             ?? "Server=localhost;Database=ExpenseFlowIdentity;Trusted_Connection=True;TrustServerCertificate=True;";
 
         services.AddHealthChecks()

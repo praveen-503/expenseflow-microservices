@@ -1,8 +1,9 @@
-﻿import { Injectable, signal, computed, inject } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { Observable, throwError, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 interface AuthResponse {
   token: string;
@@ -21,7 +22,7 @@ interface AuthResponse {
 })
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:5233/api/v1';
+  private readonly apiUrl = environment.identityApiUrl;
 
   private readonly _currentUser = signal<User | null>(null);
   

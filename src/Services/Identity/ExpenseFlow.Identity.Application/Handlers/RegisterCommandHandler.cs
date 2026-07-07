@@ -27,19 +27,19 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<Au
         var dto = new RegisterRequestDto(request.Email, request.Password, request.FirstName, request.LastName);
         var result = await _authService.RegisterAsync(dto, cancellationToken);
 
-        if (result.IsSuccess && result.Value != null)
-        {
-            var user = result.Value.User;
-            var integrationEvent = new UserRegisteredIntegrationEvent
-            {
-                UserId = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName
-            };
+        //if (result.IsSuccess && result.Value != null)
+        //{
+        //    var user = result.Value.User;
+        //    var integrationEvent = new UserRegisteredIntegrationEvent
+        //    {
+        //        UserId = user.Id,
+        //        Email = user.Email,
+        //        FirstName = user.FirstName,
+        //        LastName = user.LastName
+        //    };
 
-            await _eventPublisher.PublishAsync(integrationEvent, cancellationToken);
-        }
+        //    await _eventPublisher.PublishAsync(integrationEvent, cancellationToken);
+        //}
 
         return result;
     }

@@ -1,14 +1,15 @@
-﻿import { Injectable, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Expense, Category, ExpenseSummary } from '../models/expense.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExpenseService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:5062/api/v1';
+  private readonly apiUrl = environment.expenseApiUrl;
 
   // --- Expenses CRUD ---
   getSummary(): Observable<ExpenseSummary> {

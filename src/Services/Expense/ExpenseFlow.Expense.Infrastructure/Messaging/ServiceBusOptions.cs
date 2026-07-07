@@ -6,7 +6,7 @@ public class ServiceBusOptions
 
     public string ConnectionString { get; set; } = string.Empty;
     public string FullyQualifiedNamespace { get; set; } = string.Empty;
-    public string TopicName { get; set; } = "expenseflow-integration-events";
+    public string TopicName { get; set; } = "expense-events";
     public string SubscriptionName { get; set; } = string.Empty;
     public RetryOptions Retry { get; set; } = new();
 }
