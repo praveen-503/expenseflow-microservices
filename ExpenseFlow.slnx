@@ -19,6 +19,7 @@
     <Project Path="src/Services/Notification/ExpenseFlow.Notification.Api/ExpenseFlow.Notification.Api.csproj" />
     <Project Path="src/Services/Notification/ExpenseFlow.Notification.Application/ExpenseFlow.Notification.Application.csproj" />
     <Project Path="src/Services/Notification/ExpenseFlow.Notification.Domain/ExpenseFlow.Notification.Domain.csproj" />
+    <Project Path="src/Services/Notification/ExpenseFlow.Notification.Functions/ExpenseFlow.Notification.Functions.csproj" />
     <Project Path="src/Services/Notification/ExpenseFlow.Notification.Infrastructure/ExpenseFlow.Notification.Infrastructure.csproj" />
     <Project Path="src/Services/Notification/ExpenseFlow.Notification.Persistence/ExpenseFlow.Notification.Persistence.csproj" />
   </Folder>

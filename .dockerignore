@@ -1,0 +1,23 @@
+# Ignore git and IDE configurations
+.git
+.github
+.vs
+.vscode
+*.sln.docstates
+*.slnx.docstates
+*.suo
+*.user
+
+# Ignore dotnet build outputs
+**/bin/
+**/obj/
+
+# Ignore Node.js / Angular local folders and builds
+**/node_modules/
+**/dist/
+**/.angular/
+
+# Ignore Docker configurations
+docker-compose*.yml
+.dockerignore
+**/Dockerfile

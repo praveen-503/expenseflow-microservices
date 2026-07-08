@@ -1,0 +1,88 @@
+﻿<div class="dashboard-header">
+  <h1>Dashboard</h1>
+  <p>Track your balances, expenses, and category metrics.</p>
+</div>
+
+@if (errorMessage()) {
+  <div class="error-banner">{{ errorMessage() }}</div>
+}
+
+@if (summary(); as sum) {
+  <div class="grid-container">
+    <mat-card class="stat-card sum-card">
+      <mat-card-header>
+        <mat-card-title>Total Spending</mat-card-title>
+        <mat-icon mat-card-avatar color="primary">account_balance_wallet</mat-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <h2 class="stat-value">${{ sum.totalExpense | number:'1.2-2' }}</h2>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card count-card">
+      <mat-card-header>
+        <mat-card-title>Current Month</mat-card-title>
+        <mat-icon mat-card-avatar color="accent">calendar_month</mat-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <h2 class="stat-value">${{ sum.currentMonthTotal | number:'1.2-2' }}</h2>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card notification-card">
+      <mat-card-header>
+        <mat-card-title>Previous Month</mat-card-title>
+        <mat-icon mat-card-avatar color="warn">history</mat-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <h2 class="stat-value">${{ sum.previousMonthTotal | number:'1.2-2' }}</h2>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="metrics-row" style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Spending Insights</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <span matListItemTitle>Highest Transaction</span>
+            <span matListItemLine>${{ sum.highestExpense | number:'1.2-2' }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span matListItemTitle>Lowest Transaction</span>
+            <span matListItemLine>${{ sum.lowestExpense | number:'1.2-2' }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span matListItemTitle>Average Transaction Cost</span>
+            <span matListItemLine>${{ sum.averageExpense | number:'1.2-2' }}</span>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Spending by Category</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @if (sum.expensesByCategory.length === 0) {
+          <p style="padding: 16px; color: gray;">No expenses categorized yet.</p>
+        } @else {
+          <mat-list>
+            @for (cat of sum.expensesByCategory; track cat.categoryName) {
+              <mat-list-item>
+                <span matListItemTitle>{{ cat.categoryName }}</span>
+                <span matListItemLine>${{ cat.totalAmount | number:'1.2-2' }}</span>
+              </mat-list-item>
+            }
+          </mat-list>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+} @else {
+  <p>Loading summary metrics...</p>
+}

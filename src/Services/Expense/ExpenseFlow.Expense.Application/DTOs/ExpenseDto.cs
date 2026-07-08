@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace ExpenseFlow.Expense.Application.DTOs;
 
@@ -12,4 +12,5 @@ public record ExpenseDto(
     CategoryDto Category,
     Guid UserId,
     DateTime CreatedAt,
-    DateTime? LastModifiedAt);
+    DateTime? LastModifiedAt,
+    string? ReceiptUrl);

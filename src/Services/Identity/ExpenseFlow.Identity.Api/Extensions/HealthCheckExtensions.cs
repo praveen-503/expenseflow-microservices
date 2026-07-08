@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +9,7 @@ public static class HealthCheckExtensions
 {
     public static IServiceCollection AddHealthCheckConfig(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection") 
+        var connectionString = configuration.GetConnectionString("IdentityDb") 
             ?? "Server=localhost;Database=ExpenseFlowIdentity;Trusted_Connection=True;TrustServerCertificate=True;";
 
         services.AddHealthChecks()
@@ -23,7 +23,7 @@ public static class HealthCheckExtensions
         app.MapHealthChecks("/health");
         app.MapHealthChecks("/health/ready", new HealthCheckOptions
         {
-            Predicate = check => check.Tags.Contains("db")
+            Predicate = check => check.Tags.Contains("db") || check.Tags.Contains("servicebus")
         });
 
         return app;

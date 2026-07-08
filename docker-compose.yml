@@ -1,0 +1,102 @@
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: expenseflow-mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Praveen@123!
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+    healthcheck:
+      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Praveen@123!", "-Q", "SELECT 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: expenseflow-jaeger
+    ports:
+      - "16686:16686" # Web UI
+      - "4317:4317" # OTLP gRPC port
+      - "4318:4318" # OTLP HTTP port
+
+  identity-api:
+    image: expenseflow-identity-api
+    container_name: expenseflow-identity-api
+    build:
+      context: .
+      dockerfile: src/Services/Identity/ExpenseFlow.Identity.Api/Dockerfile
+    ports:
+      - "5233:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__IdentityDb=Server=mssql,1433;Database=ExpenseFlowIdentity;User Id=sa;Password=Praveen@123!;TrustServerCertificate=True;
+      - JwtSettings__Secret=SuperSecretKeyForExpenseFlowTokenGeneration12345!
+      - Telemetry__OtlpEndpoint=http://jaeger:4317
+    depends_on:
+      mssql:
+        condition: service_healthy
+
+  expense-api:
+    image: expenseflow-expense-api
+    container_name: expenseflow-expense-api
+    build:
+      context: .
+      dockerfile: src/Services/Expense/ExpenseFlow.Expense.Api/Dockerfile
+    ports:
+      - "5062:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__ExpenseDb=Server=mssql,1433;Database=ExpenseFlowExpense;User Id=sa;Password=Praveen@123!;TrustServerCertificate=True;
+      - Telemetry__OtlpEndpoint=http://jaeger:4317
+    depends_on:
+      mssql:
+        condition: service_healthy
+
+  notification-api:
+    image: expenseflow-notification-api
+    container_name: expenseflow-notification-api
+    build:
+      context: .
+      dockerfile: src/Services/Notification/ExpenseFlow.Notification.Api/Dockerfile
+    ports:
+      - "5206:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__NotificationDb=Server=mssql,1433;Database=ExpenseFlowNotification;User Id=sa;Password=Praveen@123!;TrustServerCertificate=True;
+      - Telemetry__OtlpEndpoint=http://jaeger:4317
+    depends_on:
+      mssql:
+        condition: service_healthy
+
+  notification-functions:
+    image: expenseflow-notification-functions
+    container_name: expenseflow-notification-functions
+    build:
+      context: .
+      dockerfile: src/Services/Notification/ExpenseFlow.Notification.Functions/Dockerfile
+    environment:
+      - ConnectionStrings__NotificationDb=Server=mssql,1433;Database=ExpenseFlowNotification;User Id=sa;Password=Praveen@123!;TrustServerCertificate=True;
+      - Telemetry__OtlpEndpoint=http://jaeger:4317
+    depends_on:
+      mssql:
+        condition: service_healthy
+
+  web-client:
+    image: expenseflow-web-client
+    container_name: expenseflow-web-client
+    build:
+      context: .
+      dockerfile: src/Web/expenseflow-client/Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - identity-api
+      - expense-api
+      - notification-api
+
+volumes:
+  mssql-data:

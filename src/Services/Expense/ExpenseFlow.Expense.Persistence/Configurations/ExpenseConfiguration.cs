@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ExpenseFlow.Expense.Domain.Entities;
 using System;
@@ -14,6 +14,7 @@ public class ExpenseConfiguration : BaseEntityConfiguration<Domain.Entities.Expe
         builder.Property(e => e.Title).IsRequired().HasMaxLength(150);
         builder.Property(e => e.Amount).HasColumnType("decimal(18,2)");
         builder.Property(e => e.Notes).HasMaxLength(500);
+        builder.Property(e => e.ReceiptUrl).HasMaxLength(2048).IsRequired(false);
 
         builder.HasOne(e => e.Category)
             .WithMany(c => c.Expenses)

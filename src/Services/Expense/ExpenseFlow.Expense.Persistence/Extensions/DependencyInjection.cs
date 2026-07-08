@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using ExpenseFlow.Expense.Domain.Interfaces;
@@ -12,11 +12,17 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection") 
-            ?? "Server=localhost;Database=ExpenseFlowExpense;Trusted_Connection=True;TrustServerCertificate=True;";
+        var connectionString = configuration.GetConnectionString("ExpenseDb");
+        if (string.IsNullOrEmpty(connectionString) || connectionString == "Secret stored in Azure Key Vault")
+        {
+            connectionString = "Server=localhost;Database=ExpenseFlowExpense;Trusted_Connection=True;TrustServerCertificate=True;";
+        }
 
         services.AddDbContext<ExpenseDbContext>(options =>
-            options.UseSqlServer(connectionString));
+        {
+            options.UseSqlServer(connectionString);
+            options.ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
+        });
 
         services.AddScoped<DbContext>(provider => provider.GetRequiredService<ExpenseDbContext>());
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ExpenseDbContext>());

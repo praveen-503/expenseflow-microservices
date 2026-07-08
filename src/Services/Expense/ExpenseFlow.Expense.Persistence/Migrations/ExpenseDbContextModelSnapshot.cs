@@ -110,6 +110,10 @@ namespace ExpenseFlow.Expense.Persistence.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<string>("ReceiptUrl")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(150)

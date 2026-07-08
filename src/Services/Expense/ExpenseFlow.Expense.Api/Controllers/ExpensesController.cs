@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using MediatR;
@@ -62,6 +62,20 @@ public class ExpensesController : ApiController
         return HandleResult(result);
     }
 
+    [HttpGet("summary")]
+    public async Task<IActionResult> GetSummary()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized();
+        }
+
+        var query = new GetExpenseSummaryQuery(userId);
+        var result = await Sender.Send(query);
+        return HandleResult(result);
+    }
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
@@ -87,6 +101,40 @@ public class ExpensesController : ApiController
 
         var query = new GetExpensesQuery(userId);
         var result = await Sender.Send(query);
+        return HandleResult(result);
+    }
+
+    [HttpPost("{id:guid}/receipt")]
+    public async Task<IActionResult> UploadReceipt(Guid id, IFormFile file)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized();
+        }
+
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("File is required.");
+        }
+
+        using var stream = file.OpenReadStream();
+        var command = new UploadReceiptCommand(id, userId, file.FileName, file.ContentType, stream);
+        var result = await Sender.Send(command);
+        return HandleResult(result);
+    }
+
+    [HttpDelete("{id:guid}/receipt")]
+    public async Task<IActionResult> DeleteReceipt(Guid id)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized();
+        }
+
+        var command = new DeleteReceiptCommand(id, userId);
+        var result = await Sender.Send(command);
         return HandleResult(result);
     }
 }
