@@ -125,12 +125,10 @@ try
 }
 catch (Exception ex)
 {
-    Console.Error.WriteLine($"Unhandled exception during startup: {ex}");
-    try
-    {
-        System.IO.File.WriteAllText("startup_crash_log.txt", ex.ToString());
-    }
-    catch { }
+    var path = @"startup_crash_log2.txt";
+
+    File.WriteAllText(path, ex.ToString());
+
     throw;
 }
 
