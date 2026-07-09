@@ -72,6 +72,17 @@ try
     builder.Services.AddHealthCheckConfig(builder.Configuration);
     builder.Services.AddProblemDetailsConfig();
 
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("CorsPolicy", policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        });
+    });
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -91,6 +102,8 @@ try
     app.UseStatusCodePages(); // ProblemDetails integration
 
     app.UseHttpsRedirection();
+
+    app.UseCors("CorsPolicy");
 
     app.UseAuthentication();
     app.UseAuthorization();
