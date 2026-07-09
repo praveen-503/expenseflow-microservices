@@ -27,4 +27,6 @@ jobs:
           app_location: "src/Web/expenseflow-client"
           api_location: ""
           output_location: "dist/expenseflow-client/browser"
+        env:
+          NG_DISABLE_VERSION_CHECK: '1'
 
