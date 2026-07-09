@@ -76,7 +76,7 @@ try
     {
         options.AddPolicy("CorsPolicy", policy =>
         {
-            policy.WithOrigins("http://localhost:4200")
+            policy.WithOrigins("http://localhost:4200", "https://yellow-flower-098979e00.7.azurestaticapps.net")
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   .AllowCredentials();
