@@ -52,6 +52,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__ExpenseDb=Server=mssql,1433;Database=ExpenseFlowExpense;User Id=sa;Password=Praveen@123!;TrustServerCertificate=True;
       - Telemetry__OtlpEndpoint=http://jaeger:4317
+      - JwtSettings__Secret=SuperSecretKeyForExpenseFlowTokenGeneration12345!
     depends_on:
       mssql:
         condition: service_healthy
@@ -68,6 +69,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__NotificationDb=Server=mssql,1433;Database=ExpenseFlowNotification;User Id=sa;Password=Praveen@123!;TrustServerCertificate=True;
       - Telemetry__OtlpEndpoint=http://jaeger:4317
+      - JwtSettings__Secret=SuperSecretKeyForExpenseFlowTokenGeneration12345!
     depends_on:
       mssql:
         condition: service_healthy

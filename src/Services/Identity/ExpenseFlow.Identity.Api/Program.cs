@@ -127,7 +127,7 @@ try
 }
 catch (Exception ex)
 {
-    var path = @"D:\home\site\wwwroot\startup_crash_log1.txt";
+    var path = @"startup_crash_log2.txt";
 
     File.WriteAllText(path, ex.ToString());
 
