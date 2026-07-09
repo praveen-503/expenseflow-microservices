@@ -9,7 +9,7 @@ try
 
     // Register Azure Key Vault Configuration Provider
     var vaultUriStr = builder.Configuration["AzureKeyVault:VaultUri"];
-    if (!string.IsNullOrEmpty(vaultUriStr))
+    if (!builder.Environment.IsDevelopment() && !string.IsNullOrEmpty(vaultUriStr))
     {
         try
         {
