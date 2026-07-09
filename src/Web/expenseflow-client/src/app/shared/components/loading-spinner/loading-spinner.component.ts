@@ -1,4 +1,4 @@
-﻿import { Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingService } from '../../../core/services/loading.service';
@@ -8,7 +8,7 @@ import { LoadingService } from '../../../core/services/loading.service';
   standalone: true,
   imports: [CommonModule, MatProgressSpinnerModule],
   templateUrl: './loading-spinner.component.html',
-  styleUrl: './loading-spinner.component.css'
+  styleUrl: './loading-spinner.component.scss'
 })
 export class LoadingSpinnerComponent {
   protected readonly loadingService = inject(LoadingService);

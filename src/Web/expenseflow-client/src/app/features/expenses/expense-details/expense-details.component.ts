@@ -1,18 +1,19 @@
-﻿import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 import { Expense } from '../../../core/models/expense.model';
 import { ExpenseService } from '../../../core/services/expense.service';
 
 @Component({
   selector: 'app-expense-details',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, RouterModule, MatCardModule, MatButtonModule, MatIconModule, MatDividerModule],
   templateUrl: './expense-details.component.html',
-  styleUrl: './expense-details.component.css'
+  styleUrl: './expense-details.component.scss'
 })
 export class ExpenseDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);

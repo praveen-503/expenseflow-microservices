@@ -1,38 +1,55 @@
-﻿<h1>Admin Control Panel</h1>
-<p>Manage system users, microservice configuration endpoints, and authorization scopes.</p>
+<div class="admin-wrapper">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="breadcrumbs">
+      <span>Dashboard</span>
+      <mat-icon>chevron_right</mat-icon>
+      <span class="active">Admin Panel</span>
+    </div>
+    <h1 class="page-title">Admin Control Panel</h1>
+    <p class="page-subtitle">Manage system users, microservice configurations, and authorization scopes</p>
+  </div>
 
-<mat-card class="admin-card">
-  <mat-card-header>
-    <mat-card-title>System Users</mat-card-title>
-  </mat-card-header>
-  <mat-card-content class="admin-content">
-    <table mat-table [dataSource]="users()" class="mat-elevation-z1">
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *mat-header-cellDef>Email</th>
-        <td mat-cell *mat-cellDef="let element">{{ element.email }}</td>
-      </ng-container>
+  <!-- Users Management Card -->
+  <mat-card class="admin-card premium-card">
+    <mat-card-header class="card-header-area">
+      <mat-card-title>System Users</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="admin-content">
+      <table mat-table [dataSource]="users()" class="full-width">
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let element" style="font-weight: 500; color: var(--text-primary);">
+            {{ element.email }}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="firstName">
-        <th mat-header-cell *mat-header-cellDef>First Name</th>
-        <td mat-cell *mat-cellDef="let element">{{ element.firstName }}</td>
-      </ng-container>
+        <!-- First Name Column -->
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef>First Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="lastName">
-        <th mat-header-cell *mat-header-cellDef>Last Name</th>
-        <td mat-cell *mat-cellDef="let element">{{ element.lastName }}</td>
-      </ng-container>
+        <!-- Last Name Column -->
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef>Last Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="role">
-        <th mat-header-cell *mat-header-cellDef>Role</th>
-        <td mat-cell *mat-cellDef="let element">
-          <span class="role-badge" [class.admin-badge]="element.role === 'Administrator'">
-            {{ element.role }}
-          </span>
-        </td>
-      </ng-container>
+        <!-- Role Column -->
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef>Role</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="role-badge" [class.admin-badge]="element.role === 'Administrator'">
+              {{ element.role }}
+            </span>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *mat-header-rowDef="displayedColumns"></tr>
-      <tr mat-row *mat-rowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </mat-card-content>
-</mat-card>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

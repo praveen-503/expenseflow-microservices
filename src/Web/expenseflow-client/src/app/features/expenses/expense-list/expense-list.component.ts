@@ -1,4 +1,4 @@
-﻿import { Component, inject, signal, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, inject, signal, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
@@ -8,6 +8,9 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { Expense } from '../../../core/models/expense.model';
 import { ExpenseService } from '../../../core/services/expense.service';
 import { ExpenseFormComponent } from '../expense-form/expense-form.component';
@@ -25,10 +28,13 @@ import { ExpenseFormComponent } from '../expense-form/expense-form.component';
     MatSortModule,
     MatInputModule,
     MatFormFieldModule,
+    MatChipsModule,
+    MatCardModule,
+    MatDividerModule,
     ExpenseFormComponent
   ],
   templateUrl: './expense-list.component.html',
-  styleUrl: './expense-list.component.css'
+  styleUrl: './expense-list.component.scss'
 })
 export class ExpenseListComponent implements OnInit, AfterViewInit {
   private readonly expenseService = inject(ExpenseService);
@@ -38,6 +44,7 @@ export class ExpenseListComponent implements OnInit, AfterViewInit {
   protected readonly displayedColumns = ['title', 'category', 'amount', 'expenseDate', 'actions'];
   protected readonly showForm = signal(false);
   protected readonly errorMessage = signal('');
+  protected readonly isLoading = signal(true);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -50,7 +57,6 @@ export class ExpenseListComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     
-    // Custom filter predicate to scan category name as well as title
     this.dataSource.filterPredicate = (data: Expense, filter: string) => {
       const search = filter.trim().toLowerCase();
       const matchTitle = data.title.toLowerCase().includes(search);
@@ -61,11 +67,16 @@ export class ExpenseListComponent implements OnInit, AfterViewInit {
   }
 
   loadExpenses() {
+    this.isLoading.set(true);
     this.expenseService.getExpenses().subscribe({
       next: (data) => {
         this.dataSource.data = data;
+        this.isLoading.set(false);
       },
-      error: () => this.errorMessage.set('Could not load expenses.')
+      error: () => {
+        this.errorMessage.set('Could not load expenses.');
+        this.isLoading.set(false);
+      }
     });
   }
 
@@ -80,7 +91,7 @@ export class ExpenseListComponent implements OnInit, AfterViewInit {
   }
 
   deleteExpense(id: string, event: Event) {
-    event.stopPropagation(); // Avoid triggering route details navigation
+    event.stopPropagation();
     if (confirm('Are you sure you want to delete this expense?')) {
       this.expenseService.deleteExpense(id).subscribe({
         next: () => this.loadExpenses(),

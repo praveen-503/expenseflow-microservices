@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { Category } from '../../core/models/expense.model';
 import { ExpenseService } from '../../core/services/expense.service';
 
@@ -19,10 +20,11 @@ import { ExpenseService } from '../../core/services/expense.service';
     MatInputModule,
     MatButtonModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule
   ],
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.css'
+  styleUrl: './categories.component.scss'
 })
 export class CategoriesComponent implements OnInit {
   private readonly expenseService = inject(ExpenseService);

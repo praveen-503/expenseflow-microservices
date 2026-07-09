@@ -1,35 +1,66 @@
-﻿<div class="page-header">
-  <button mat-button (click)="goBack()">
-    <mat-icon>arrow_back</mat-icon> Back to List
-  </button>
-  <h1>Expense Details</h1>
-</div>
+<div class="details-wrapper">
+  <!-- Page Header -->
+  <div class="page-header">
+    <button mat-button class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon> 
+      <span>Back to List</span>
+    </button>
+    <h1 class="page-title">Transaction Details</h1>
+  </div>
 
-@if (errorMessage()) {
-  <div class="error-banner">{{ errorMessage() }}</div>
-}
+  @if (errorMessage()) {
+    <div class="error-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ errorMessage() }}</span>
+    </div>
+  }
 
-@if (expense(); as exp) {
-  <mat-card class="detail-card">
-    <mat-card-header>
-      <mat-card-title>{{ exp.title }}</mat-card-title>
-      <mat-card-subtitle>{{ exp.category?.name || 'Unassigned Category' }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content style="margin-top: 16px;">
-      <div style="font-size: 24px; font-weight: bold; margin-bottom: 12px;">
-        Amount: ${{ exp.amount | number:'1.2-2' }}
+  @if (expense(); as exp) {
+    <mat-card class="detail-card premium-card">
+      <!-- Header Info: Title, Category, Amount -->
+      <div class="card-header-area">
+        <div class="title-section">
+          <h2 class="expense-title">{{ exp.title }}</h2>
+          <span class="category-badge">{{ exp.category?.name || 'Unassigned Category' }}</span>
+        </div>
+        <div class="amount-section">
+          <span class="currency">$</span>
+          <span class="amount-value">{{ exp.amount | number:'1.2-2' }}</span>
+        </div>
       </div>
-      <div style="margin-bottom: 8px;">
-        <strong>Date:</strong> {{ exp.expenseDate | date:'fullDate' }}
+
+      <mat-divider></mat-divider>
+
+      <!-- Metadata Box -->
+      <div class="meta-details">
+        <div class="meta-item">
+          <span class="label">Transaction Date</span>
+          <span class="value">{{ exp.expenseDate | date:'fullDate' }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">Payment Status</span>
+          <span class="value">Completed</span>
+        </div>
       </div>
+
+      <!-- Notes section -->
       @if (exp.notes) {
-        <div style="margin-top: 16px; padding: 12px; background: #f5f5f5; border-radius: 4px;">
-          <strong>Notes:</strong><br>
-          <p style="margin-top: 4px; white-space: pre-wrap;">{{ exp.notes }}</p>
+        <div class="notes-section">
+          <h3>Notes / Comments</h3>
+          <div class="notes-box">
+            <p>{{ exp.notes }}</p>
+          </div>
         </div>
       }
-    </mat-card-content>
-  </mat-card>
-} @else {
-  <p>Loading details...</p>
-}
+    </mat-card>
+  } @else {
+    <!-- Loading details skeleton -->
+    <mat-card class="detail-card premium-card skeleton-card">
+      <div class="skeleton-line title-skel skeleton"></div>
+      <div class="skeleton-line amount-skel skeleton"></div>
+      <mat-divider></mat-divider>
+      <div class="skeleton-line meta-skel skeleton"></div>
+      <div class="skeleton-line notes-skel skeleton"></div>
+    </mat-card>
+  }
+</div>

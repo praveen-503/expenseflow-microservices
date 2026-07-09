@@ -18,7 +18,7 @@ public static class DependencyInjection
             connectionString = "Server=localhost;Database=ExpenseFlowExpense;Trusted_Connection=True;TrustServerCertificate=True;";
         }
 
-        services.AddDbContext<ExpenseDbContext>(options =>
+       services.AddDbContext<ExpenseDbContext>(options =>
         {
             options.UseSqlServer(connectionString);
             options.ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
