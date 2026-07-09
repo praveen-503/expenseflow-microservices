@@ -28,8 +28,6 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<IdentityDbContext>());
 
         services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
-        services.AddScoped<IUserRepository>(provider => provider.GetRequiredService<UserRepository>());
-        services.AddScoped<UserRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserClaimRepository, UserClaimRepository>();
