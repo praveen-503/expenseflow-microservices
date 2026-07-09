@@ -42,5 +42,3 @@ jobs:
           app_location: "src/Web/expenseflow-client/dist/expenseflow-client/browser"
           api_location: ""
           skip_app_build: true
-        env:
-          NG_DISABLE_VERSION_CHECK: '1'
