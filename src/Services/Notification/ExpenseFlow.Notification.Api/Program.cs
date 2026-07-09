@@ -75,16 +75,13 @@ try
     app.UseResponseCompression();
     app.UseRateLimiter();
 
-    if (app.Environment.IsDevelopment())
+    app.UseSwaggerConfig();
+    app.MapOpenApi();
+    app.MapGet("/", context =>
     {
-        app.UseSwaggerConfig();
-        app.MapOpenApi();
-        app.MapGet("/", context =>
-        {
-            context.Response.Redirect("/swagger");
-            return System.Threading.Tasks.Task.CompletedTask;
-        });
-    }
+        context.Response.Redirect("/swagger");
+        return System.Threading.Tasks.Task.CompletedTask;
+    });
 
     app.UseExceptionHandler(); // Maps native IExceptionHandler (GlobalExceptionHandler)
     app.UseStatusCodePages(); // ProblemDetails integration
