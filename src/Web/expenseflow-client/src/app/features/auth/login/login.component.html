@@ -1,33 +1,56 @@
-﻿<div class="auth-wrapper">
-  <mat-card class="auth-card">
-    <mat-card-header>
-      <mat-card-title>Sign In</mat-card-title>
-      <mat-card-subtitle>Access ExpenseFlow Microservice Portal</mat-card-subtitle>
+<div class="auth-wrapper">
+  <div class="background-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <mat-card class="auth-card premium-card glass-effect">
+    <mat-card-header class="auth-header">
+      <div class="logo-area">
+        <mat-icon class="logo-icon">payments</mat-icon>
+        <span class="logo-text">ExpenseFlow</span>
+      </div>
+      <mat-card-title class="auth-title">Welcome Back</mat-card-title>
+      <mat-card-subtitle class="auth-subtitle">Enter your credentials to access your account</mat-card-subtitle>
     </mat-card-header>
     
     <mat-card-content class="auth-content">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Email Address</mat-label>
-          <input matInput formControlName="email" type="email" placeholder="admin@expenseflow.com">
-          <mat-error>Please enter a valid email</mat-error>
+          <input matInput formControlName="email" type="email" placeholder="name@example.com">
+          <mat-icon matPrefix class="form-icon">mail</mat-icon>
+          <mat-error>Please enter a valid email address</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Password</mat-label>
-          <input matInput formControlName="password" type="password">
+          <input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'">
+          <mat-icon matPrefix class="form-icon">lock</mat-icon>
+          <button mat-icon-button matSuffix (click)="hidePassword.set(!hidePassword())" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword()" type="button">
+            <mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
           <mat-error>Password is required</mat-error>
         </mat-form-field>
 
         @if (errorMessage) {
           <div class="error-box">
-            {{ errorMessage }}
+            <mat-icon class="error-icon">error_outline</mat-icon>
+            <span>{{ errorMessage }}</span>
           </div>
         }
 
         <div class="actions">
-          <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
-          <a routerLink="/auth/register" class="toggle-link">Create Account</a>
+          <button mat-flat-button color="primary" class="submit-btn" type="submit" [disabled]="loginForm.invalid || isSubmitting()">
+            @if (isSubmitting()) {
+              <span>Logging in...</span>
+            } @else {
+              <span>Login</span>
+            }
+          </button>
+          <div class="signup-prompt">
+            Don't have an account? <a routerLink="/auth/register" class="toggle-link">Create one</a>
+          </div>
         </div>
       </form>
     </mat-card-content>

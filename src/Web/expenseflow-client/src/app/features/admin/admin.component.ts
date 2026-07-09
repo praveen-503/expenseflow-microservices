@@ -1,15 +1,16 @@
-﻿import { Component, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { User } from '../../core/models/user.model';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatCardModule],
+  imports: [CommonModule, MatTableModule, MatCardModule, MatIconModule],
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css'
+  styleUrl: './admin.component.scss'
 })
 export class AdminComponent {
   protected readonly users = signal<User[]>([

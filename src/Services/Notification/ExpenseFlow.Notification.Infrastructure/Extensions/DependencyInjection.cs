@@ -23,6 +23,9 @@ public static class DependencyInjection
         // Service Bus Configuration
         services.Configure<ServiceBusOptions>(configuration.GetSection(ServiceBusOptions.SectionName));
 
+        // Email Configuration
+        services.Configure<EmailOptions>(configuration.GetSection(EmailOptions.SectionName));
+
         services.AddSingleton(sp =>
         {
             var options = sp.GetRequiredService<IOptions<ServiceBusOptions>>().Value;

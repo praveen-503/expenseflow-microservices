@@ -1,6 +1,6 @@
-﻿import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, filter, take } from 'rxjs/operators';
 import { throwError, Observable, BehaviorSubject } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
@@ -45,11 +45,10 @@ function handle401Error(req: HttpRequest<any>, next: HttpHandlerFn, authService:
     );
   } else {
     return refreshTokenSubject.pipe(
+      filter(token => token !== null),
+      take(1),
       switchMap(token => {
-        if (token === null) {
-          return next(req);
-        }
-        return next(injectToken(req, token));
+        return next(injectToken(req, token!));
       })
     );
   }

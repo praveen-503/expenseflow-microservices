@@ -1,0 +1,44 @@
+.sidebar-list {
+  padding: 16px 12px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  a[mat-list-item] {
+    height: 48px;
+    border-radius: var(--border-radius-md) !important;
+    color: var(--text-secondary) !important;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+
+    .mat-icon {
+      color: var(--text-secondary);
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+      margin-right: 12px;
+      transition: var(--transition-smooth);
+    }
+
+    &:hover {
+      background-color: rgba(var(--text-secondary), 0.05) !important;
+      color: var(--text-primary) !important;
+
+      .mat-icon {
+        color: var(--text-primary);
+        transform: scale(1.05);
+      }
+    }
+
+    // Active state highlighting
+    &.active-item {
+      background-color: rgba(#3b82f6, 0.08) !important;
+      color: #3b82f6 !important;
+      font-weight: 600;
+
+      .mat-icon {
+        color: #3b82f6 !important;
+      }
+    }
+  }
+}

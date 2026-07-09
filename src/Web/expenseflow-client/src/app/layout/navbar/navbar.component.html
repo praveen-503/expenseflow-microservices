@@ -1,10 +1,77 @@
-﻿<mat-toolbar color="primary" class="navbar">
-  <span>ExpenseFlow Portal</span>
-  <span class="spacer"></span>
+<mat-toolbar class="navbar glass-effect">
   @if (authService.isAuthenticated()) {
-    <span class="user-greeting">Welcome, {{ authService.currentUser()?.firstName }}</span>
-    <button mat-icon-button (click)="logout()">
-      <mat-icon>logout</mat-icon>
+    <button mat-icon-button (click)="toggleSidenav.emit()" class="menu-toggle">
+      <mat-icon>menu</mat-icon>
     </button>
+  }
+  
+  <div class="brand">
+    <mat-icon class="brand-icon">payments</mat-icon>
+    <span class="brand-name">ExpenseFlow</span>
+  </div>
+  
+  <span class="spacer"></span>
+  
+  @if (authService.isAuthenticated()) {
+    <div class="actions">
+      <!-- Theme Selector Toggle -->
+      <button mat-icon-button [matMenuTriggerFor]="themeMenu" aria-label="Toggle theme">
+        @switch (themeService.currentTheme()) {
+          @case ('light') { <mat-icon>light_mode</mat-icon> }
+          @case ('dark') { <mat-icon>dark_mode</mat-icon> }
+          @default { <mat-icon>hdr_auto</mat-icon> }
+        }
+      </button>
+      
+      <mat-menu #themeMenu="matMenu" xPosition="before" class="premium-menu">
+        <button mat-menu-item (click)="setTheme('light')">
+          <mat-icon>light_mode</mat-icon>
+          <span>Light Mode</span>
+          @if (themeService.currentTheme() === 'light') {
+            <mat-icon class="checked-icon">check</mat-icon>
+          }
+        </button>
+        <button mat-menu-item (click)="setTheme('dark')">
+          <mat-icon>dark_mode</mat-icon>
+          <span>Dark Mode</span>
+          @if (themeService.currentTheme() === 'dark') {
+            <mat-icon class="checked-icon">check</mat-icon>
+          }
+        </button>
+        <button mat-menu-item (click)="setTheme('auto')">
+          <mat-icon>hdr_auto</mat-icon>
+          <span>System Default</span>
+          @if (themeService.currentTheme() === 'auto') {
+            <mat-icon class="checked-icon">check</mat-icon>
+          }
+        </button>
+      </mat-menu>
+
+      <!-- User Profile Dropdown -->
+      <button mat-flat-button [matMenuTriggerFor]="userMenu" class="user-menu-btn">
+        <span class="user-avatar">{{ authService.currentUser()?.firstName?.charAt(0) || 'U' }}</span>
+        <span class="user-name">{{ authService.currentUser()?.firstName }}</span>
+        <mat-icon class="arrow-icon">arrow_drop_down</mat-icon>
+      </button>
+
+      <mat-menu #userMenu="matMenu" xPosition="before" class="premium-menu profile-menu">
+        <div class="profile-header">
+          <div class="profile-details">
+            <span class="name">{{ authService.currentUser()?.firstName }} {{ authService.currentUser()?.lastName }}</span>
+            <span class="email">{{ authService.currentUser()?.email }}</span>
+          </div>
+          <span class="role-badge">{{ authService.currentUser()?.role }}</span>
+        </div>
+        <mat-divider></mat-divider>
+        <button mat-menu-item routerLink="/dashboard">
+          <mat-icon>dashboard</mat-icon>
+          <span>Dashboard</span>
+        </button>
+        <button mat-menu-item (click)="logout()" class="logout-btn">
+          <mat-icon>logout</mat-icon>
+          <span>Sign Out</span>
+        </button>
+      </mat-menu>
+    </div>
   }
 </mat-toolbar>

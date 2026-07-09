@@ -1,17 +1,38 @@
-﻿<h1>Notifications</h1>
-<p>Logs of messages delivered to your profile.</p>
+<div class="notifications-wrapper">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="breadcrumbs">
+      <span>Dashboard</span>
+      <mat-icon>chevron_right</mat-icon>
+      <span class="active">Notifications</span>
+    </div>
+    <h1 class="page-title">Notifications Hub</h1>
+    <p class="page-subtitle">Logs of system events and messages delivered to your profile</p>
+  </div>
 
-<div class="notifications-container">
-  @for (notif of notifications(); track notif.id) {
-    <mat-card class="notification-card">
-      <mat-card-header>
-        <mat-icon mat-card-avatar color="primary">message</mat-icon>
-        <mat-card-title>{{ notif.title }}</mat-card-title>
-        <mat-card-subtitle>{{ notif.createdAt }} - Channel: {{ notif.type }}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p class="message-text">{{ notif.message }}</p>
-      </mat-card-content>
-    </mat-card>
-  }
+  <div class="notifications-container">
+    @for (notif of notifications(); track notif.id) {
+      <mat-card class="notification-card premium-card">
+        <mat-card-header>
+          <div class="avatar-container" 
+               [class.email-channel]="notif.type === 'Email'"
+               [class.push-channel]="notif.type === 'Push'"
+               [class.sms-channel]="notif.type === 'SMS'">
+            @switch (notif.type) {
+              @case ('Email') { <mat-icon>mail</mat-icon> }
+              @case ('Push') { <mat-icon>notifications_active</mat-icon> }
+              @default { <mat-icon>sms</mat-icon> }
+            }
+          </div>
+          <div class="header-text-area">
+            <h3 class="card-title">{{ notif.title }}</h3>
+            <span class="card-subtitle">{{ notif.createdAt }} &bull; Channel: {{ notif.type }}</span>
+          </div>
+        </mat-card-header>
+        <mat-card-content class="card-content-area">
+          <p class="message-text">{{ notif.message }}</p>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
 </div>

@@ -1,4 +1,4 @@
-﻿import { Component, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +9,7 @@ import { Notification } from '../../../core/models/notification.model';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatIconModule],
   templateUrl: './notification-list.component.html',
-  styleUrl: './notification-list.component.css'
+  styleUrl: './notification-list.component.scss'
 })
 export class NotificationListComponent {
   protected readonly notifications = signal<Notification[]>([

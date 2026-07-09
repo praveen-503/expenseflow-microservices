@@ -1,0 +1,113 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Define light and dark themes using Material 3
+$light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  typography: (
+    brand-family: 'Inter',
+    plain-family: 'Inter',
+  ),
+  density: (scale: 0)
+));
+
+$dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  typography: (
+    brand-family: 'Inter',
+    plain-family: 'Inter',
+  ),
+  density: (scale: 0)
+));
+
+// Global configurations
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Light theme as default
+html {
+  @include mat.all-component-themes($light-theme);
+  --bg-app: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #ffffff;
+  --border-color: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --border-radius-lg: 16px;
+  --border-radius-md: 12px;
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  transition: var(--transition-smooth);
+
+  // Dark theme override class
+  &.dark-theme {
+    @include mat.all-component-colors($dark-theme);
+    --bg-app: #090d16;
+    --bg-surface: #131924;
+    --bg-surface-elevated: #1e2638;
+    --border-color: #2e3b52;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --card-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  }
+}
+
+// Common styles for premium aesthetics
+.glass-effect {
+  background: rgba(var(--bg-surface), 0.7) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+}
+
+.premium-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--border-radius-lg) !important;
+  box-shadow: var(--card-shadow) !important;
+  transition: var(--transition-smooth);
+
+  &:hover {
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+    transform: translateY(-2px);
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+// Custom Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
