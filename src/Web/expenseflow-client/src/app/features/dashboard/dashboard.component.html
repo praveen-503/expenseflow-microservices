@@ -8,142 +8,143 @@
   </div>
 
   @if (errorMessage()) {
-    <div class="error-banner">
-      <mat-icon>error_outline</mat-icon>
-      <span>{{ errorMessage() }}</span>
-    </div>
+  <div class="error-banner">
+    <mat-icon>error_outline</mat-icon>
+    <span>{{ errorMessage() }}</span>
+  </div>
   }
 
   @if (summary(); as sum) {
-    <!-- Primary Stats Grid -->
-    <div class="grid-container">
-      <mat-card class="stat-card premium-card">
-        <mat-card-header>
-          <div class="card-icon-container primary-theme">
-            <mat-icon>account_balance_wallet</mat-icon>
-          </div>
-          <mat-card-title class="card-title">Total Spending</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="card-body">
-          <span class="currency">$</span>
-          <span class="stat-value">{{ sum.totalExpense | number:'1.2-2' }}</span>
-        </mat-card-content>
-      </mat-card>
+  <!-- Primary Stats Grid -->
+  <div class="grid-container">
+    <mat-card class="stat-card premium-card">
+      <mat-card-header>
+        <div class="card-icon-container primary-theme">
+          <mat-icon>account_balance_wallet</mat-icon>
+        </div>
+        <mat-card-title class="card-title">Total Spending Amount</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-body">
+        <span class="currency">$</span>
+        <span class="stat-value">{{ sum.totalExpense | number:'1.2-2' }}</span>
+      </mat-card-content>
+    </mat-card>
 
-      <mat-card class="stat-card premium-card">
-        <mat-card-header>
-          <div class="card-icon-container accent-theme">
-            <mat-icon>calendar_month</mat-icon>
-          </div>
-          <mat-card-title class="card-title">Current Month</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="card-body">
-          <span class="currency">$</span>
-          <span class="stat-value">{{ sum.currentMonthTotal | number:'1.2-2' }}</span>
-        </mat-card-content>
-      </mat-card>
+    <mat-card class="stat-card premium-card">
+      <mat-card-header>
+        <div class="card-icon-container accent-theme">
+          <mat-icon>calendar_month</mat-icon>
+        </div>
+        <mat-card-title class="card-title">Current Month</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-body">
+        <span class="currency">$</span>
+        <span class="stat-value">{{ sum.currentMonthTotal | number:'1.2-2' }}</span>
+      </mat-card-content>
+    </mat-card>
 
-      <mat-card class="stat-card premium-card">
-        <mat-card-header>
-          <div class="card-icon-container warn-theme">
-            <mat-icon>history</mat-icon>
-          </div>
-          <mat-card-title class="card-title">Previous Month</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="card-body">
-          <span class="currency">$</span>
-          <span class="stat-value">{{ sum.previousMonthTotal | number:'1.2-2' }}</span>
-        </mat-card-content>
-      </mat-card>
-    </div>
+    <mat-card class="stat-card premium-card">
+      <mat-card-header>
+        <div class="card-icon-container warn-theme">
+          <mat-icon>history</mat-icon>
+        </div>
+        <mat-card-title class="card-title">Previous Month</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-body">
+        <span class="currency">$</span>
+        <span class="stat-value">{{ sum.previousMonthTotal | number:'1.2-2' }}</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
 
-    <!-- Insights & Category Breakdowns -->
-    <div class="insights-grid">
-      <!-- Insights Card -->
-      <mat-card class="premium-card">
-        <mat-card-header class="insights-header">
-          <mat-card-title>Transaction Insights</mat-card-title>
-          <mat-card-subtitle>Averages and bounds across your transaction history</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content class="insights-content">
-          <div class="insight-row">
-            <div class="insight-label">
-              <mat-icon class="green-text">trending_up</mat-icon>
-              <span>Highest Transaction</span>
-            </div>
-            <div class="insight-value">${{ sum.highestExpense | number:'1.2-2' }}</div>
+  <!-- Insights & Category Breakdowns -->
+  <div class="insights-grid">
+    <!-- Insights Card -->
+    <mat-card class="premium-card">
+      <mat-card-header class="insights-header">
+        <mat-card-title>Transaction Insights</mat-card-title>
+        <mat-card-subtitle>Averages and bounds across your transaction history</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="insights-content">
+        <div class="insight-row">
+          <div class="insight-label">
+            <mat-icon class="green-text">trending_up</mat-icon>
+            <span>Highest Transaction</span>
           </div>
-          <mat-divider></mat-divider>
-          <div class="insight-row">
-            <div class="insight-label">
-              <mat-icon class="blue-text">trending_down</mat-icon>
-              <span>Lowest Transaction</span>
-            </div>
-            <div class="insight-value">${{ sum.lowestExpense | number:'1.2-2' }}</div>
+          <div class="insight-value">${{ sum.highestExpense | number:'1.2-2' }}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="insight-row">
+          <div class="insight-label">
+            <mat-icon class="blue-text">trending_down</mat-icon>
+            <span>Lowest Transaction</span>
           </div>
-          <mat-divider></mat-divider>
-          <div class="insight-row">
-            <div class="insight-label">
-              <mat-icon class="purple-text">analytics</mat-icon>
-              <span>Average Transaction Cost</span>
-            </div>
-            <div class="insight-value">${{ sum.averageExpense | number:'1.2-2' }}</div>
+          <div class="insight-value">${{ sum.lowestExpense | number:'1.2-2' }}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="insight-row">
+          <div class="insight-label">
+            <mat-icon class="purple-text">analytics</mat-icon>
+            <span>Average Transaction Cost</span>
           </div>
-        </mat-card-content>
-      </mat-card>
+          <div class="insight-value">${{ sum.averageExpense | number:'1.2-2' }}</div>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-      <!-- Categories Card -->
-      <mat-card class="premium-card">
-        <mat-card-header class="insights-header">
-          <mat-card-title>Spending by Category</mat-card-title>
-          <mat-card-subtitle>Expense distribution by categories</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content class="insights-content">
-          @if (sum.expensesByCategory.length === 0) {
-            <div class="empty-state">
-              <mat-icon class="empty-icon">category_off</mat-icon>
-              <p>No expenses categorized yet.</p>
+    <!-- Categories Card -->
+    <mat-card class="premium-card">
+      <mat-card-header class="insights-header">
+        <mat-card-title>Spending by Category</mat-card-title>
+        <mat-card-subtitle>Expense distribution by categories</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="insights-content">
+        @if (sum.expensesByCategory.length === 0) {
+        <div class="empty-state">
+          <mat-icon class="empty-icon">category_off</mat-icon>
+          <p>No expenses categorized yet.</p>
+        </div>
+        } @else {
+        <div class="category-list">
+          @for (cat of sum.expensesByCategory; track cat.categoryName) {
+          <div class="category-item">
+            <div class="category-info">
+              <span class="category-name">{{ cat.categoryName }}</span>
+              <span class="category-amount">${{ cat.totalAmount | number:'1.2-2' }}</span>
             </div>
-          } @else {
-            <div class="category-list">
-              @for (cat of sum.expensesByCategory; track cat.categoryName) {
-                <div class="category-item">
-                  <div class="category-info">
-                    <span class="category-name">{{ cat.categoryName }}</span>
-                    <span class="category-amount">${{ cat.totalAmount | number:'1.2-2' }}</span>
-                  </div>
-                  <mat-progress-bar mode="determinate" [value]="getCategoryPercentage(cat.totalAmount)" class="category-progress"></mat-progress-bar>
-                </div>
-              }
-            </div>
+            <mat-progress-bar mode="determinate" [value]="getCategoryPercentage(cat.totalAmount)"
+              class="category-progress"></mat-progress-bar>
+          </div>
           }
-        </mat-card-content>
-      </mat-card>
-    </div>
+        </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
   } @else {
-    <!-- Skeleton Loaders -->
-    <div class="grid-container">
-      @for (i of [1, 2, 3]; track i) {
-        <mat-card class="stat-card premium-card skeleton-card">
-          <div class="skeleton skeleton-icon"></div>
-          <div class="skeleton skeleton-title"></div>
-          <div class="skeleton skeleton-value"></div>
-        </mat-card>
-      }
-    </div>
-    <div class="insights-grid">
-      <mat-card class="premium-card skeleton-insights-card">
-        <div class="skeleton skeleton-title"></div>
-        <div class="skeleton skeleton-row"></div>
-        <div class="skeleton skeleton-row"></div>
-        <div class="skeleton skeleton-row"></div>
-      </mat-card>
-      <mat-card class="premium-card skeleton-insights-card">
-        <div class="skeleton skeleton-title"></div>
-        <div class="skeleton skeleton-row"></div>
-        <div class="skeleton skeleton-row"></div>
-        <div class="skeleton skeleton-row"></div>
-      </mat-card>
-    </div>
+  <!-- Skeleton Loaders -->
+  <div class="grid-container">
+    @for (i of [1, 2, 3]; track i) {
+    <mat-card class="stat-card premium-card skeleton-card">
+      <div class="skeleton skeleton-icon"></div>
+      <div class="skeleton skeleton-title"></div>
+      <div class="skeleton skeleton-value"></div>
+    </mat-card>
+    }
+  </div>
+  <div class="insights-grid">
+    <mat-card class="premium-card skeleton-insights-card">
+      <div class="skeleton skeleton-title"></div>
+      <div class="skeleton skeleton-row"></div>
+      <div class="skeleton skeleton-row"></div>
+      <div class="skeleton skeleton-row"></div>
+    </mat-card>
+    <mat-card class="premium-card skeleton-insights-card">
+      <div class="skeleton skeleton-title"></div>
+      <div class="skeleton skeleton-row"></div>
+      <div class="skeleton skeleton-row"></div>
+      <div class="skeleton skeleton-row"></div>
+    </mat-card>
+  </div>
   }
 </div>
