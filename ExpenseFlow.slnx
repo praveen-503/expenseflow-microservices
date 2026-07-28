@@ -7,6 +7,7 @@
     <Project Path="src/Services/Expense/ExpenseFlow.Expense.Domain/ExpenseFlow.Expense.Domain.csproj" />
     <Project Path="src/Services/Expense/ExpenseFlow.Expense.Infrastructure/ExpenseFlow.Expense.Infrastructure.csproj" />
     <Project Path="src/Services/Expense/ExpenseFlow.Expense.Persistence/ExpenseFlow.Expense.Persistence.csproj" />
+    <Project Path="src/Services/Expense/ExpenseFlow.Expense.Api.Tests/ExpenseFlow.Expense.Api.Tests.csproj" />
   </Folder>
   <Folder Name="/src/Services/Identity/">
     <Project Path="src/Services/Identity/ExpenseFlow.Identity.Api/ExpenseFlow.Identity.Api.csproj" />

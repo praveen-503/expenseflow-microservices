@@ -4,13 +4,13 @@ services:
     container_name: expenseflow-mssql
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=Praveen@123!
+      - MSSQL_SA_PASSWORD=Praveen@#123
     ports:
       - "1433:1433"
     volumes:
       - mssql-data:/var/opt/mssql
     healthcheck:
-      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Praveen@123!", "-Q", "SELECT 1" ]
+      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Praveen@#123", "-Q", "SELECT 1" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -33,7 +33,7 @@ services:
       - "5233:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__IdentityDb=Server=mssql,1433;Database=ExpenseFlowIdentity;User Id=sa;Password=Praveen@123!;TrustServerCertificate=True;
+      - ConnectionStrings__IdentityDb=Server=mssql,1433;Database=ExpenseFlowIdentity;User Id=sa;Password=Praveen@#123;TrustServerCertificate=True;
       - JwtSettings__Secret=SuperSecretKeyForExpenseFlowTokenGeneration12345!
       - Telemetry__OtlpEndpoint=http://jaeger:4317
     depends_on:
@@ -50,7 +50,7 @@ services:
       - "5062:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__ExpenseDb=Server=mssql,1433;Database=ExpenseFlowExpense;User Id=sa;Password=Praveen@123!;TrustServerCertificate=True;
+      - ConnectionStrings__ExpenseDb=Server=mssql,1433;Database=ExpenseFlowExpense;User Id=sa;Password=Praveen@#123;TrustServerCertificate=True;
       - Telemetry__OtlpEndpoint=http://jaeger:4317
       - JwtSettings__Secret=SuperSecretKeyForExpenseFlowTokenGeneration12345!
     depends_on:
@@ -67,7 +67,7 @@ services:
       - "5206:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__NotificationDb=Server=mssql,1433;Database=ExpenseFlowNotification;User Id=sa;Password=Praveen@123!;TrustServerCertificate=True;
+      - ConnectionStrings__NotificationDb=Server=mssql,1433;Database=ExpenseFlowNotification;User Id=sa;Password=Praveen@#123;TrustServerCertificate=True;
       - Telemetry__OtlpEndpoint=http://jaeger:4317
       - JwtSettings__Secret=SuperSecretKeyForExpenseFlowTokenGeneration12345!
     depends_on:
@@ -81,7 +81,7 @@ services:
       context: .
       dockerfile: src/Services/Notification/ExpenseFlow.Notification.Functions/Dockerfile
     environment:
-      - ConnectionStrings__NotificationDb=Server=mssql,1433;Database=ExpenseFlowNotification;User Id=sa;Password=Praveen@123!;TrustServerCertificate=True;
+      - ConnectionStrings__NotificationDb=Server=mssql,1433;Database=ExpenseFlowNotification;User Id=sa;Password=Praveen@#123;TrustServerCertificate=True;
       - Telemetry__OtlpEndpoint=http://jaeger:4317
     depends_on:
       mssql:
